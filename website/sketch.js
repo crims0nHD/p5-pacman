@@ -65,25 +65,29 @@ function updateFramecounter(){
 }
 
 function updatePacman(){
-    if(counter%2==0){
+    if(checkWallcollisionBeforeTurning()){
+        pacman.direction = pacman.intendedDirection;
+    }
+
+    if(counter%30==0){
         switch(pacman.direction){
             case "up":
-                pacman.y -= 3;
+                pacman.y -= 20;
                 break;
             case "down":
-                pacman.y += 3;
+                pacman.y += 20;
                 break;
             case "left":
-                pacman.x -= 3;
+                pacman.x -= 20;
                 break;
             case "right":
-                pacman.x += 3;
+                pacman.x += 20;
                 break;      
         }
     }
 }
 
-function checkWallcollision(){
+function checkWallcollisionBeforeTurning(){
     if(pacman.direction != pacman.intendedDirection){
         var pacmanTile = {
             x : calculatenextTile(pacman.x),
@@ -91,9 +95,28 @@ function checkWallcollision(){
         };
 
         switch(pacman.intendedDirection){
-            case "up":
-                
-        }
+                case "up":
+                if(pacmap[pacmanTile.y-1][pacmanTile.x]=="#"){
+                    return false;
+                }
+                break;
+                case "down":
+                if(pacmap[pacmanTile.y+1][pacmanTile.x]=="#"){
+                    return false;
+                }
+                break;
+                case "left":
+                if(pacmap[pacmanTile.y][pacmanTile.x-1]=="#"){
+                    return false;
+                }
+                break;
+                case "right":
+                if(pacmap[pacmanTile.y][pacmanTile.x+1]=="#"){
+                    return false;
+                }
+                break;
+            }
+            return true;
     }
 }
 
